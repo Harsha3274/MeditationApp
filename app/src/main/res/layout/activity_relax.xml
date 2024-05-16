@@ -4,10 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".relax">
+    tools:context=".relax"
+    android:background="@drawable/button_background">
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/circles"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/circles"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/menu_relax"
         android:layout_width="40dp"
         android:layout_height="30dp"
         android:layout_marginStart="22dp"
@@ -22,21 +33,97 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:text="What's on your mind? "
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/stressed_card"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_marginStart="22dp"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/circles"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.376" />
+        app:layout_constraintTop_toBottomOf="@+id/textView8">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/stress_card" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="serif-monospace"
+            android:gravity="bottom|center"
+            android:text="Stressed"
+            android:textColor="@color/purple_700"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/anxiety_card"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="22dp"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/anxiety_image" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="serif-monospace"
+            android:gravity="bottom|center"
+            android:text="Anxiety"
+            android:textColor="@color/purple_700"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/agitated_card"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_marginEnd="22dp"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/anxiety_card">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/agitated_icon" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="serif-monospace"
+            android:gravity="bottom|center"
+            android:text="Agitated"
+            android:textColor="@color/purple_700"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

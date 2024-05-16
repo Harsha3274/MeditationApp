@@ -4,10 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".meditate">
+    tools:context=".meditate"
+    android:background="@drawable/button_background">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageView6"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/circles"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/back_image"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
@@ -18,8 +29,8 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottie"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:layout_marginTop="70dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,7 +39,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/meditation" />
+        app:lottie_rawRes="@raw/new_breath" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

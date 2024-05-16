@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".music_list"
+    android:background="@drawable/button_background">
+
+    <ImageView
+        android:id="@+id/circles"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/circles"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Buttons section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/shuffle_btn_music"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Shuffle"
+                android:textAllCaps="false"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:drawableTop="@drawable/shuffle" />
+
+            <Button
+                android:id="@+id/favourite_btn_music"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Favourites"
+                android:textAllCaps="false"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:drawableTop="@drawable/favorite_icon" />
+
+            <Button
+                android:id="@+id/playlist_btn_music"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Playlist"
+                android:textAllCaps="false"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:drawableTop="@drawable/playlist_icon" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total Songs"
+            android:textColor="@color/white"
+            android:layout_margin="10dp"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

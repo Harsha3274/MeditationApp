@@ -4,110 +4,168 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".sleep">
-
+    tools:context=".sleep"
+    android:background="@drawable/button_background">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:id="@+id/imageView6"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/circles"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/back_image_sleep"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:src="@drawable/arrow_left_circle_"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_marginStart="80dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/album_card"
+        android:layout_width="210dp"
+        android:layout_height="210dp"
+        app:cardCornerRadius="100dp"
         android:layout_marginTop="100dp"
-        android:src="@drawable/round_album"
+        app:cardElevation="21dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="190dp"
+            android:layout_height="190dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:src="@drawable/musicimage" />
+
+    </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/song_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="Song Name"
+        android:textColor="@color/white"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/album_card" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/artist_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="Artist name"
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/song_name" />
 
-    <SeekBar
-        android:id="@+id/seekBar"
-        android:layout_width="280dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie"
+        android:layout_width="240dp"
+        android:layout_height="110dp"
+        app:layout_constraintEnd_toStartOf="@+id/end_number"
+        app:layout_constraintStart_toEndOf="@+id/start_number"
+        app:layout_constraintTop_toBottomOf="@+id/artist_name"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/music_waves" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/start_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="270dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="220dp"
         android:text="0:20"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/seekBar"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/end_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="270dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="220dp"
         android:text="2:01"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/seekBar" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
     <Button
-        android:id="@+id/button3"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="165dp"
-        android:background="@drawable/arrow_left"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button2" />
-
-    <Button
-        android:id="@+id/button2"
+        android:id="@+id/pause_circle"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/pause_circle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+        app:layout_constraintTop_toBottomOf="@+id/lottie" />
 
     <Button
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="165dp"
+        android:id="@+id/arrow_left_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="110dp"
+        android:background="@drawable/arrow_left"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/pause_circle" />
+
+    <Button
+        android:id="@+id/arrow_right_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="110dp"
         android:background="@drawable/arrow_right"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button2" />
+        app:layout_constraintStart_toEndOf="@+id/pause_circle" />
 
+    <ImageView
+        android:id="@+id/shuffle_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="40dp"
+        android:src="@drawable/shuffle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/arrow_left_btn" />
+
+    <ImageView
+        android:id="@+id/favourite_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/favorite_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/share_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="40dp"
+        android:src="@drawable/share"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/arrow_right_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
