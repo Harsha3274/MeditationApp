@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(),View.OnClickListener, View.OnFocusChang
         mBinding=ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(mBinding.root)
 
-        mBinding.googleBtn.setOnClickListener(this)
+
         mBinding.SignInBtn.setOnClickListener(this)
         mBinding.SignUpText.setOnClickListener(this)
         mBinding.EmailEt.onFocusChangeListener=this
