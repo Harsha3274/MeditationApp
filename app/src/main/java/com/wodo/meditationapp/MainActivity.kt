@@ -1,3 +1,4 @@
+// MainActivity.kt
 package com.wodo.meditationapp
 
 import android.content.Intent
@@ -27,7 +28,7 @@ import com.wodo.meditationapp.view_model.LoginActivityViewModelFactory
 import java.lang.StringBuilder
 import java.security.Key
 
-class MainActivity : AppCompatActivity(),View.OnClickListener, View.OnFocusChangeListener, View.OnKeyListener{
+class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeListener, View.OnKeyListener {
 
     private lateinit var mBinding: ActivityMainBinding
     private lateinit var mViewModel: LoginActivityViewModel
@@ -35,134 +36,131 @@ class MainActivity : AppCompatActivity(),View.OnClickListener, View.OnFocusChang
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mBinding=ActivityMainBinding.inflate(LayoutInflater.from(this))
+        mBinding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(mBinding.root)
-
 
         mBinding.SignInBtn.setOnClickListener(this)
         mBinding.SignUpText.setOnClickListener(this)
-        mBinding.EmailEt.onFocusChangeListener=this
-        mBinding.PasswordEt.onFocusChangeListener=this
+        mBinding.EmailEt.onFocusChangeListener = this
+        mBinding.PasswordEt.onFocusChangeListener = this
         mBinding.PasswordEt.setOnKeyListener(this)
 
-        mViewModel=ViewModelProvider(this,LoginActivityViewModelFactory(AuthRepository(APIService.getService()),application)).get(LoginActivityViewModel::class.java)
+        mViewModel = ViewModelProvider(this, LoginActivityViewModelFactory(AuthRepository(APIService.getService()), application)).get(LoginActivityViewModel::class.java)
 
         setupObservers()
     }
 
-    private fun setupObservers(){
-        mViewModel.getIsLoading().observe(this){
-            mBinding.progressBar.isVisible=it
+    private fun setupObservers() {
+        mViewModel.getIsLoading().observe(this) {
+            mBinding.progressBar.isVisible = it
         }
 
-
-
-        mViewModel.getErrorMessage().observe(this){
-            val formErrorKeys= arrayOf("fullname","email","password")
-            val message= StringBuilder()
+        mViewModel.getErrorMessage().observe(this) {
+            val formErrorKeys = arrayOf("fullname", "email", "password")
+            val message = StringBuilder()
             it.map { entry ->
-                if(formErrorKeys.contains(entry.key)){
-                    when(entry.key){
-                        "email"->{
+                if (formErrorKeys.contains(entry.key)) {
+                    when (entry.key) {
+                        "email" -> {
                             mBinding.EmailTil.apply {
-                                isErrorEnabled=true
-                                error=entry.value
+                                isErrorEnabled = true
+                                error = entry.value
                             }
                         }
-                        "password"->{
+                        "password" -> {
                             mBinding.PasswordTil.apply {
-                                isErrorEnabled=true
-                                error=entry.value
+                                isErrorEnabled = true
+                                error = entry.value
                             }
                         }
                     }
-                }else{
+                } else {
                     message.append(entry.value).append("\n")
                 }
-                if(message.isNotEmpty()){
+                if (message.isNotEmpty()) {
                     AlertDialog.Builder(this)
                         .setIcon(R.drawable.baseline_info_24)
                         .setTitle("INFORMATION")
                         .setMessage(message)
-                        .setPositiveButton("Ok"){dialog, _ ->dialog!!.dismiss()}
+                        .setPositiveButton("Ok") { dialog, _ -> dialog!!.dismiss() }
                         .show()
                 }
             }
 
         }
-        mViewModel.getUser().observe(this){
-            if(it!=null){
-                startActivity(Intent(this,Home::class.java))
+        mViewModel.getUser().observe(this) {
+            if (it != null) {
+                startActivity(Intent(this, Home::class.java))
             }
         }
     }
 
-
-    private fun validateEmail(shouldUpdateView: Boolean=true, shouldVibrateView: Boolean=true):Boolean {
+    private fun validateEmail(shouldUpdateView: Boolean = true, shouldVibrateView: Boolean = true): Boolean {
         var errorMessage: String? = null
         val value = mBinding.EmailEt.text.toString()
-        if(value.isEmpty()){
-            errorMessage="Email is required"
-        }else if (!Patterns.EMAIL_ADDRESS.matcher(value).matches()){
-            errorMessage="Email address is invalid"
+        if (value.isEmpty()) {
+            errorMessage = "Email is required"
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(value).matches()) {
+            errorMessage = "Email address is invalid"
         }
 
-        if (errorMessage!=null&&shouldUpdateView){
+        if (errorMessage != null && shouldUpdateView) {
             mBinding.EmailTil.apply {
-                isErrorEnabled=true
-                error=errorMessage
-                if (shouldVibrateView) VibrateView.vibrate(this@MainActivity,this)
+                isErrorEnabled = true
+                error = errorMessage
+                if (shouldVibrateView) VibrateView.vibrate(this@MainActivity, this)
             }
         }
 
-        return errorMessage==null
+        return errorMessage == null
     }
 
-    private fun validatePassword(shouldUpdateView: Boolean=true, shouldVibrateView: Boolean=true):Boolean {
+    private fun validatePassword(shouldUpdateView: Boolean = true, shouldVibrateView: Boolean = true): Boolean {
         var errorMessage: String? = null
         val value = mBinding.PasswordEt.text.toString()
-        if(value.isEmpty()){
-            errorMessage="Password is required"
-        }else if (value.length<6){
-            errorMessage="Password must be 6 characters long"
+        if (value.isEmpty()) {
+            errorMessage = "Password is required"
+        } else if (value.length < 6) {
+            errorMessage = "Password must be 6 characters long"
         }
 
-        if (errorMessage!=null && shouldUpdateView){
+        if (errorMessage != null && shouldUpdateView) {
             mBinding.PasswordTil.apply {
-                isErrorEnabled=true
-                error=errorMessage
-                if (shouldVibrateView) VibrateView.vibrate(this@MainActivity,this)
+                isErrorEnabled = true
+                error = errorMessage
+                if (shouldVibrateView) VibrateView.vibrate(this@MainActivity, this)
             }
         }
 
-        return errorMessage==null
+        return errorMessage == null
     }
-    private fun validate(): Boolean{
-        var isValid=true
-        if(!validateEmail(shouldVibrateView = false)) isValid=false
-        if(!validatePassword(shouldVibrateView = false)) isValid=false
+
+    private fun validate(): Boolean {
+        var isValid = true
+        if (!validateEmail(shouldVibrateView = false)) isValid = false
+        if (!validatePassword(shouldVibrateView = false)) isValid = false
         if (!isValid) VibrateView.vibrate(this, mBinding.cardView1)
         return isValid
     }
 
     override fun onFocusChange(view: View?, hasFocus: Boolean) {
-        if (view!=null){
-            when(view.id){
-                R.id.EmailEt ->{
-                    if (hasFocus){
-                        if(mBinding.EmailTil.isErrorEnabled){
-                            mBinding.EmailTil.isErrorEnabled=false
+        if (view != null) {
+            when (view.id) {
+                R.id.EmailEt -> {
+                    if (hasFocus) {
+                        if (mBinding.EmailTil.isErrorEnabled) {
+                            mBinding.EmailTil.isErrorEnabled = false
                         }
-                    }else{
+                    } else {
                         validateEmail()
                     }
                 }
-                R.id.PasswordEt ->{
-                    if (hasFocus){
-                        if(mBinding.PasswordTil.isErrorEnabled){
-                            mBinding.PasswordTil.isErrorEnabled=false
+                R.id.PasswordEt -> {
+                    if (hasFocus) {
+                        if (mBinding.PasswordTil.isErrorEnabled) {
+                            mBinding.PasswordTil.isErrorEnabled = false
                         }
-                    }else{
+                    } else {
                         validatePassword()
                     }
                 }
@@ -170,31 +168,30 @@ class MainActivity : AppCompatActivity(),View.OnClickListener, View.OnFocusChang
         }
     }
 
-    private fun submitForm(){
-        if (validate()){
+    private fun submitForm() {
+        if (validate()) {
             //verify user credentials
             mViewModel.loginUser(LoginBody(mBinding.EmailEt.text!!.toString(), mBinding.PasswordEt.text!!.toString()))
         }
     }
 
     override fun onKey(view: View?, keyCode: Int, keyEvent: KeyEvent?): Boolean {
-        if (keyCode==KeyEvent.KEYCODE_ENTER && keyEvent!!.action ==KeyEvent.ACTION_UP){
+        if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent!!.action == KeyEvent.ACTION_UP) {
             submitForm()
         }
-     return false
+        return false
     }
 
     override fun onClick(view: View?) {
-        if(view!=null){
-            when(view.id){
-                R.id.SignInBtn ->{
+        if (view != null) {
+            when (view.id) {
+                R.id.SignInBtn -> {
                     submitForm()
                 }
-                R.id.SignUpBtn ->{
-                    startActivity(Intent(this,SignUp::class.java))
+                R.id.SignUpText -> {
+                    startActivity(Intent(this, SignUp::class.java))
                 }
             }
         }
-
     }
 }

@@ -22,8 +22,8 @@ class Home : AppCompatActivity() {
             startActivity(Intent(this,meditate::class.java))
         }
 
-        stressCard.setOnClickListener{
-            startActivity(Intent(this,stress::class.java))
-        }
+//        stressCard.setOnClickListener{
+//            startActivity(Intent(this,stress::class.java))
+//        }
     }
 }

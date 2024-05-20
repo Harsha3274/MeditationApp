@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.security.AuthProvider
 
-class LoginActivityViewModel(val authRepository: AuthRepository, val application: Application): ViewModel() {
+class LoginActivityViewModel(private val authRepository: AuthRepository, private val application: Application): ViewModel() {
     private var isLoading:MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value = false }
     private var errorMessage:MutableLiveData<HashMap<String,String>> = MutableLiveData()
 

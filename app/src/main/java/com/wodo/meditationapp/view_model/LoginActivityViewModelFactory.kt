@@ -8,13 +8,15 @@ import java.security.InvalidParameterException
 
 class LoginActivityViewModelFactory(
     private val authRepository: AuthRepository,
-    private val application: Application): ViewModelProvider.Factory {
+    private val application: Application
+) : ViewModelProvider.Factory {
+
     @Suppress("UNCHECKED_CAST")
-    fun <T:ViewModel?> create(modelClass: Class<T>):T{
-        if(modelClass.isAssignableFrom(LoginActivityViewModelFactory::class.java)){
-            return LoginActivityViewModelFactory(authRepository,application) as T
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(LoginActivityViewModel::class.java)) {
+            return LoginActivityViewModel(authRepository, application) as T
         }
 
-        throw InvalidParameterException("Unable to construct RegisterActivityViewModel")
+        throw InvalidParameterException("Unable to construct LoginActivityViewModel")
     }
 }

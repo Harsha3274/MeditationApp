@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.wodo.meditationapp.Home
+import com.wodo.meditationapp.MainActivity
 import com.wodo.meditationapp.R
 import com.wodo.meditationapp.data.RegisterBody
 import com.wodo.meditationapp.data.ValidateEmailBody
@@ -214,8 +215,12 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
 
 
     override fun onClick(view: View?) {
-        if (view!=null && view.id == R.id.SignUpBtn)
-            onSubmit()
+        if (view != null) {
+            when (view.id) {
+                R.id.SignUpBtn -> onSubmit()
+                R.id.SignInText -> startActivity(Intent(this, MainActivity::class.java)) // Handle click for SignInText
+            }
+        }
     }
 
     override fun onFocusChange(view: View?, hasFocus: Boolean) {
