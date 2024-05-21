@@ -8,8 +8,10 @@
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
+        android:name=".ApplicationClass"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -63,7 +65,11 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-        <service android:name=".MusicService"/>
+        <service android:name=".MusicService"
+            android:foregroundServiceType="mediaPlayback"
+            tools:ignore="ForegroundServicePermission" />
+        <receiver android:name=".NotificationReceiver"
+            android:enabled="true"/>
     </application>
 
 </manifest>

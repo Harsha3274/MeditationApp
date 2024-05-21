@@ -1,5 +1,6 @@
 package com.wodo.meditationapp
 
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
@@ -14,19 +15,22 @@ import com.wodo.meditationapp.databinding.ActivitySleepBinding
 import java.lang.Exception
 
 class sleep : AppCompatActivity(), ServiceConnection {
-    private lateinit var binding: ActivitySleepBinding
+
 
     companion object{
         lateinit var musicListPA:ArrayList<Music>
         var songPosition: Int=0
-        var isPlaying:Boolean=false
+        var isPlaying: Boolean=false
         var musicService: MusicService? = null
+        @SuppressLint("StaticFieldLeak")
+        lateinit var binding: ActivitySleepBinding
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_MeditationApp)
         binding=ActivitySleepBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         //For starting service
         val intent= Intent(this,MusicService::class.java)
         bindService(intent,this, BIND_AUTO_CREATE)
@@ -47,7 +51,7 @@ class sleep : AppCompatActivity(), ServiceConnection {
     private fun setLayout(){
         Glide.with(this)
             .load(musicListPA[songPosition].artUri)
-            .apply(RequestOptions().placeholder(R.drawable.music_player_icon).centerCrop())
+            .apply(RequestOptions().placeholder(R.drawable.play_icon).centerCrop())
             .into(binding.backImageSleep)
         binding.songName.text= musicListPA[songPosition].title
     }
@@ -60,6 +64,7 @@ class sleep : AppCompatActivity(), ServiceConnection {
             musicService!!.mediaPlayer!!.start()
             isPlaying=true
             binding.pauseCircle.setIconResource(R.drawable.pause_circle)
+            musicService!!.showNotification(R.drawable.pause_circle)
         }catch (e:Exception){
             return
         }
@@ -82,11 +87,13 @@ class sleep : AppCompatActivity(), ServiceConnection {
     }
     private fun playMusic(){
         binding.pauseCircle.setIconResource(R.drawable.pause_circle)
+        musicService!!.showNotification(R.drawable.pause_circle)
         isPlaying=true
         musicService!!.mediaPlayer!!.start()
     }
     private fun pauseMusic(){
-        binding.pauseCircle.setIconResource(R.drawable.music_player_icon)
+        binding.pauseCircle.setIconResource(R.drawable.play_icon)
+        musicService!!.showNotification(R.drawable.play_icon)
         isPlaying=false
         musicService!!.mediaPlayer!!.pause()
     }
@@ -100,17 +107,6 @@ class sleep : AppCompatActivity(), ServiceConnection {
             setSongPosition(increment=false)
             setLayout()
             createMediaPlayer()
-        }
-    }
-    private fun setSongPosition(increment: Boolean){
-        if (increment){
-            if (musicListPA.size-1== songPosition)
-                songPosition=0
-            else ++songPosition
-        }else{
-            if (0== songPosition)
-                songPosition= musicListPA.size-1
-            else --songPosition
         }
     }
 

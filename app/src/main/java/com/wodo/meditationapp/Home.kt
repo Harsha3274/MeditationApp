@@ -12,7 +12,7 @@ class Home : AppCompatActivity() {
 
         val relaxCard: CardView = findViewById(R.id.relax_card)
         val meditateCard: CardView = findViewById(R.id.meditate_card)
-        val stressCard: CardView = findViewById(R.id.stress_card)
+//        val stressCard: CardView = findViewById(R.id.stress_card)
 
         relaxCard.setOnClickListener {
             startActivity(Intent(this, relax::class.java))
