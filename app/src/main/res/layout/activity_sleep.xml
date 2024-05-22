@@ -74,19 +74,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/song_name" />
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottie"
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/seekBarPA"
         android:layout_width="240dp"
-        android:layout_height="110dp"
-        app:layout_constraintEnd_toStartOf="@+id/end_number"
-        app:layout_constraintStart_toEndOf="@+id/start_number"
-        app:layout_constraintTop_toBottomOf="@+id/artist_name"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/music_waves" />
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/tvSeekBarend_number"
+        app:layout_constraintStart_toEndOf="@+id/tvSeekBarStart_number"
+        app:layout_constraintTop_toBottomOf="@+id/artist_name" />
 
     <TextView
-        android:id="@+id/start_number"
+        android:id="@+id/tvSeekBarStart_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -97,7 +95,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/end_number"
+        android:id="@+id/tvSeekBarend_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="40dp"
@@ -116,14 +114,14 @@
         android:background="@drawable/pause_circle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lottie" />
+        app:layout_constraintTop_toBottomOf="@+id/seekBarPA" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/arrow_left_btn"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="110dp"
+        android:layout_marginBottom="120dp"
         android:background="@drawable/arrow_left"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/pause_circle" />
@@ -133,17 +131,17 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="30dp"
-        android:layout_marginBottom="110dp"
+        android:layout_marginBottom="120dp"
         android:background="@drawable/arrow_right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/pause_circle" />
 
     <ImageView
-        android:id="@+id/shuffle_icon_sleep"
+        android:id="@+id/repeatBtnPA"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="40dp"
-        android:src="@drawable/shuffle"
+        android:src="@drawable/repeat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/arrow_left_btn" />
@@ -158,6 +156,26 @@
         android:tint="@color/red"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/equalizerBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginBottom="40dp"
+        android:src="@drawable/equalizer"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+        app:layout_constraintStart_toEndOf="@+id/repeatBtnPA" />
+
+    <ImageView
+        android:id="@+id/timerBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="40dp"
+        android:src="@drawable/timer"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+        app:layout_constraintEnd_toStartOf="@+id/share_icon" />
 
     <ImageView
         android:id="@+id/share_icon"

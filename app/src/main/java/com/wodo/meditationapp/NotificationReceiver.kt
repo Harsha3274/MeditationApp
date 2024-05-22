@@ -16,14 +16,7 @@ class NotificationReceiver : BroadcastReceiver() {
             ApplicationClass.PLAY -> if (sleep.isPlaying) pauseMusic() else playMusic()
             ApplicationClass.NEXT -> prevNextSong(increment = true, context = context!!)
             ApplicationClass.EXIT -> {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-                    sleep.musicService?.stopForeground(Service.STOP_FOREGROUND_REMOVE)
-                } else {
-                    @Suppress("DEPRECATION")
-                    sleep.musicService?.stopForeground(true)
-                }
-                sleep.musicService = null
-                exitProcess(1)
+                exitApplication()
             }
         }
     }

@@ -19,6 +19,9 @@ import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wodo.meditationapp.databinding.ActivityMusicListBinding
 import java.io.File
+import kotlin.system.exitProcess
+import android.app.Service
+import android.os.Build
 
 class MusicList : AppCompatActivity() {
 
@@ -41,8 +44,8 @@ class MusicList : AppCompatActivity() {
 
         binding.shuffleBtnMusic.setOnClickListener {
             val intent = Intent(this@MusicList, sleep::class.java)
-            intent.putExtra("index",0)
-            intent.putExtra("class","MusicList")
+            intent.putExtra("index", 0)
+            intent.putExtra("class", "MusicList")
             startActivity(intent)
         }
         binding.favouriteBtnMusic.setOnClickListener {
@@ -55,7 +58,7 @@ class MusicList : AppCompatActivity() {
         }
     }
 
-    private fun requestRuntimePermission() :Boolean{
+    private fun requestRuntimePermission(): Boolean {
         if (ActivityCompat.checkSelfPermission(
                 this,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -78,11 +81,10 @@ class MusicList : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 13) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
                 initializeLayout()
-            }
-            else
+            } else
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
@@ -136,9 +138,10 @@ class MusicList : AppCompatActivity() {
                     val pathC =
                         cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA))
                     val albumIDC =
-                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)).toString()
-                    val uri= Uri.parse("Content://media/external/audio/albumart")
-                    val artUriC= Uri.withAppendedPath(uri,albumIDC).toString()
+                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID))
+                            .toString()
+                    val uri = Uri.parse("Content://media/external/audio/albumart")
+                    val artUriC = Uri.withAppendedPath(uri, albumIDC).toString()
 
                     val music = Music(
                         id = idC,
@@ -147,7 +150,7 @@ class MusicList : AppCompatActivity() {
                         artist = artistC,
                         duration = durationC,
                         path = pathC,
-                        artUri=artUriC
+                        artUri = artUriC
                     )
                     val file = File(music.path)
                     if (file.exists()) {
@@ -158,5 +161,12 @@ class MusicList : AppCompatActivity() {
             cursor.close()
         }
         return tempList
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (!sleep.isPlaying && sleep.musicService != null) {
+            exitApplication()
+        }
     }
 }

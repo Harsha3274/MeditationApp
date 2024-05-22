@@ -26,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/back_image_sleep"
+            android:id="@+id/back_image_playlist"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
