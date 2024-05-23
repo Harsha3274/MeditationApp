@@ -35,7 +35,8 @@ fun getImgArt(path: String):ByteArray?{
                  sleep.songPosition = sleep.musicListPA.size - 1
              else --sleep.songPosition
          }
-     }}
+     }
+ }
      fun exitApplication() {
          if (!sleep.isPlaying && sleep.musicService != null) {
              if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -48,3 +49,14 @@ fun getImgArt(path: String):ByteArray?{
              exitProcess(1)
          }
      }
+
+fun favouriteChecker(id: String):Int{
+    sleep.isFavourite=false
+    favourite.favouriteSongs.forEachIndexed { index, music ->
+        if (id==music.id){
+            sleep.isFavourite=true
+            return index
+        }
+    }
+    return -1
+}

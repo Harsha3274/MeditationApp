@@ -40,17 +40,15 @@ class sleep : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCompletionLi
         var min15: Boolean=false
         var min30: Boolean=false
         var min60: Boolean=false
+        var nowPlayingId: String=""
+        var isFavourite: Boolean=false
+        var fIndex:Int=-1
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_MeditationApp)
         binding=ActivitySleepBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        //For starting service
-        val intent= Intent(this,MusicService::class.java)
-        bindService(intent,this, BIND_AUTO_CREATE)
-        startActivity(intent)
 
         initializeLayout()
         binding.backImageSleep.setOnClickListener{finish()}
@@ -121,16 +119,95 @@ class sleep : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCompletionLi
             shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(musicListPA[songPosition].path))
             startActivity(Intent.createChooser(shareIntent,"Sharing music file!!"))
         }
+        binding.favouriteBtnPA.setOnClickListener{
+            if (isFavourite){
+                isFavourite=false
+                binding.favouriteBtnPA.setImageResource(R.drawable.favorite_empty_icon)
+                favourite.favouriteSongs.removeAt(fIndex)
+            }
+            else{
+                isFavourite=true
+                binding.favouriteBtnPA.setImageResource(R.drawable.favorite_icon)
+                favourite.favouriteSongs.add(musicListPA[songPosition])
+            }
+        }
     }
+
+
+    //Important function
+    private fun initializeLayout(){
+        songPosition=intent.getIntExtra("index",0)
+        when(intent.getStringExtra("class")){
+            "FavouriteAdapter"->{
+                val intent= Intent(this,MusicService::class.java)
+                bindService(intent,this, BIND_AUTO_CREATE)
+                startActivity(intent)
+                musicListPA= ArrayList()
+                musicListPA.addAll(favourite.favouriteSongs)
+                musicListPA.shuffle()
+                setLayout()
+            }
+            "NowPlaying"->{
+                setLayout()
+                binding.tvSeekBarStartNumber.text= formatDuration(musicService!!.mediaPlayer!!.currentPosition.toLong())
+                binding.tvSeekBarendNumber.text= formatDuration(musicService!!.mediaPlayer!!.duration.toLong())
+                binding.seekBarPA.progress= musicService!!.mediaPlayer!!.currentPosition
+                binding.seekBarPA.max= musicService!!.mediaPlayer!!.duration
+                if (isPlaying) binding.pauseCircle.setIconResource(R.drawable.pause_circle)
+                else binding.pauseCircle.setIconResource(R.drawable.play_icon)
+            }
+            "MusicAdapterSearch"->{
+                val intent= Intent(this,MusicService::class.java)
+                bindService(intent,this, BIND_AUTO_CREATE)
+                startActivity(intent)
+                musicListPA= ArrayList()
+                musicListPA.addAll(MusicList.MusicListMA)
+                musicListPA.shuffle()
+                setLayout()
+            }
+            "MusicAdapter"->{
+                val intent= Intent(this,MusicService::class.java)
+                bindService(intent,this, BIND_AUTO_CREATE)
+                startActivity(intent)
+                musicListPA= ArrayList()
+                musicListPA.addAll(MusicList.MusicListMA)
+                setLayout()
+            }
+            "MusicList"->{
+                val intent= Intent(this,MusicService::class.java)
+                bindService(intent,this, BIND_AUTO_CREATE)
+                startActivity(intent)
+                musicListPA= ArrayList()
+                musicListPA.addAll(MusicList.MusicListMA)
+                musicListPA.shuffle()
+                setLayout()
+            }
+            "FavouriteShuffle"->{
+                val intent= Intent(this,MusicService::class.java)
+                bindService(intent,this, BIND_AUTO_CREATE)
+                startActivity(intent)
+                musicListPA= ArrayList()
+                musicListPA.addAll(favourite.favouriteSongs)
+                musicListPA.shuffle()
+                setLayout()
+            }
+        }
+    }
+
     private fun setLayout(){
+        fIndex= favouriteChecker(musicListPA[songPosition].id)
         Glide.with(this)
             .load(musicListPA[songPosition].artUri)
-            .apply(RequestOptions().placeholder(R.drawable.play_icon).centerCrop())
+            .apply(RequestOptions().placeholder(R.drawable.music_player_icon).centerCrop())
             .into(binding.backImageSleep)
         binding.songName.text= musicListPA[songPosition].title
         if (repeat) binding.repeatBtnPA.setColorFilter(ContextCompat.getColor(this,R.color.yellow))
         if (min15 || min30 || min60)  binding.timerBtn.setColorFilter(ContextCompat.getColor(this,R.color.yellow))
+        if (isFavourite) binding.favouriteBtnPA.setImageResource(R.drawable.favorite_icon)
+        else binding.favouriteBtnPA.setImageResource(R.drawable.favorite_empty_icon)
+
     }
+
     private fun createMediaPlayer(){
         try {
             if (musicService!!.mediaPlayer==null) musicService!!.mediaPlayer= MediaPlayer()
@@ -146,28 +223,12 @@ class sleep : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCompletionLi
             binding.seekBarPA.progress=0
             binding.seekBarPA.max= musicService!!.mediaPlayer!!.duration
             musicService!!.mediaPlayer!!.setOnCompletionListener(this)
+            nowPlayingId= musicListPA[songPosition].id
         }catch (e:Exception){
             return
         }
     }
 
-    //Important function
-    private fun initializeLayout(){
-        songPosition=intent.getIntExtra("index",0)
-        when(intent.getStringExtra("class")){
-            "MusicAdapter"->{
-                musicListPA= ArrayList()
-                musicListPA.addAll(MusicList.MusicListMA)
-                setLayout()
-            }
-            "MusicList"->{
-                musicListPA= ArrayList()
-                musicListPA.addAll(MusicList.MusicListMA)
-                musicListPA.shuffle()
-                setLayout()
-            }
-        }
-    }
     private fun playMusic(){
         binding.pauseCircle.setIconResource(R.drawable.pause_circle)
         musicService!!.showNotification(R.drawable.pause_circle)
@@ -227,7 +288,7 @@ class sleep : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCompletionLi
             Toast.makeText(baseContext,"Music.kt will stop after 15 minutes",Toast.LENGTH_SHORT).show()
             binding.timerBtn.setColorFilter(ContextCompat.getColor(this,R.color.yellow))
             min15=true
-            Thread{Thread.sleep(15*60000) // 60000 ms=1 minute
+            Thread{Thread.sleep((15*60000).toLong()) // 60000 ms=1 minute
             if (min15) exitApplication() }.start()
             dialog.dismiss()
         }
@@ -235,7 +296,7 @@ class sleep : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCompletionLi
             Toast.makeText(baseContext,"Music.kt will stop after 30 minutes",Toast.LENGTH_SHORT).show()
             binding.timerBtn.setColorFilter(ContextCompat.getColor(this,R.color.yellow))
             min30=true
-            Thread{Thread.sleep(30*60000)
+            Thread{Thread.sleep((30*60000).toLong())
                 if (min30) exitApplication() }.start()
             dialog.dismiss()
         }
@@ -243,7 +304,7 @@ class sleep : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCompletionLi
             Toast.makeText(baseContext,"Music.kt will stop after 60 minutes",Toast.LENGTH_SHORT).show()
             binding.timerBtn.setColorFilter(ContextCompat.getColor(this,R.color.yellow))
             min60=true
-            Thread{Thread.sleep(60*60000)
+            Thread{Thread.sleep((60*60000).toLong())
                 if (min60) exitApplication() }.start()
             dialog.dismiss()
         }

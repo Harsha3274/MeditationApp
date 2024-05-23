@@ -26,6 +26,7 @@ class NotificationReceiver : BroadcastReceiver() {
         sleep.musicService!!.mediaPlayer!!.start()
         sleep.musicService!!.showNotification(R.drawable.pause_circle)
         sleep.binding.pauseCircle.setIconResource(R.drawable.pause_circle)
+        NowPlaying.binding.playPauseBtnNP.setIconResource(R.drawable.pause_circle)
     }
 
     private fun pauseMusic() {
@@ -33,6 +34,7 @@ class NotificationReceiver : BroadcastReceiver() {
         sleep.musicService!!.mediaPlayer!!.pause()
         sleep.musicService!!.showNotification(R.drawable.play_icon)
         sleep.binding.pauseCircle.setIconResource(R.drawable.play_icon)
+        NowPlaying.binding.playPauseBtnNP.setIconResource(R.drawable.play_icon)
     }
 
     private fun prevNextSong(increment: Boolean, context: Context) {
@@ -40,9 +42,17 @@ class NotificationReceiver : BroadcastReceiver() {
         sleep.musicService!!.createMediaPlayer()
         Glide.with(context)
             .load(sleep.musicListPA[sleep.songPosition].artUri)
-            .apply(RequestOptions().placeholder(R.drawable.play_icon).centerCrop())
+            .apply(RequestOptions().placeholder(R.drawable.music_player_icon).centerCrop())
             .into(sleep.binding.backImageSleep)
         sleep.binding.songName.text = sleep.musicListPA[sleep.songPosition].title
+        Glide.with(context)
+            .load(sleep.musicListPA[sleep.songPosition].artUri)
+            .apply(RequestOptions().placeholder(R.drawable.music_player_icon).centerCrop())
+            .into(NowPlaying.binding.songImgNP)
+        NowPlaying.binding.songNameNP.text=sleep.musicListPA[sleep.songPosition].title
         playMusic()
+        sleep.fIndex= favouriteChecker(sleep.musicListPA[sleep.songPosition].id)
+        if (sleep.isFavourite)sleep.binding.favouriteBtnPA.setImageResource(R.drawable.favorite_icon)
+        else sleep.binding.favouriteBtnPA.setImageResource(R.drawable.favorite_empty_icon)
     }
 }

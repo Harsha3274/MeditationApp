@@ -82,6 +82,8 @@ class MusicService : Service() {
             sleep.binding.tvSeekBarendNumber.text= formatDuration(mediaPlayer!!.duration.toLong())
             sleep.binding.seekBarPA.progress=0
             sleep.binding.seekBarPA.max= mediaPlayer!!.duration
+            sleep.nowPlayingId=sleep.musicListPA[sleep.songPosition].id
+
         }catch (e: Exception){
             return
         }

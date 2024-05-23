@@ -22,6 +22,11 @@ import java.io.File
 import kotlin.system.exitProcess
 import android.app.Service
 import android.os.Build
+import android.os.PersistableBundle
+import android.view.Menu
+import android.widget.SearchView
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 
 class MusicList : AppCompatActivity() {
 
@@ -30,6 +35,8 @@ class MusicList : AppCompatActivity() {
 
     companion object {
         lateinit var MusicListMA: ArrayList<Music>
+        lateinit var musicListSearch: ArrayList<Music>
+        var search: Boolean = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,9 +45,19 @@ class MusicList : AppCompatActivity() {
         setTheme(R.style.Theme_MeditationApp)
         binding = ActivityMusicListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        if (requestRuntimePermission())
+        if (requestRuntimePermission()){
             initializeLayout()
-        initializeLayout()
+
+            //for retrieving favourites data using preferences
+            favourite.favouriteSongs= ArrayList()
+            val editor=getSharedPreferences("FAVOURITES", MODE_PRIVATE)
+            val jsonString=editor.getString("FavouriteSongs",null)
+            val typeToken=object :TypeToken<ArrayList<Music>>(){}.type
+            if (jsonString!=null){
+                val data: ArrayList<Music> = GsonBuilder().create().fromJson(jsonString,typeToken)
+                favourite.favouriteSongs.addAll(data)
+            }
+        }
 
         binding.shuffleBtnMusic.setOnClickListener {
             val intent = Intent(this@MusicList, sleep::class.java)
@@ -95,7 +112,7 @@ class MusicList : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun initializeLayout() {
-
+        search = false
         MusicListMA = getAllAudio()
         binding.musicRV.setHasFixedSize(true)
         binding.musicRV.setItemViewCacheSize(13)
@@ -163,10 +180,44 @@ class MusicList : AppCompatActivity() {
         return tempList
     }
 
+    @SuppressLint("CommitPrefEdits")
     override fun onDestroy() {
         super.onDestroy()
         if (!sleep.isPlaying && sleep.musicService != null) {
             exitApplication()
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        //for storing favourites data using preferences
+        val editor=getSharedPreferences("FAVOURITES", MODE_PRIVATE).edit()
+        val jsonString=GsonBuilder().create().toJson(favourite.favouriteSongs)
+        editor.putString("FavouriteSongs",jsonString)
+        editor.apply()
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.search_view_menu, menu)
+        val searchView = menu?.findItem(R.id.searchView)?.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean = true
+            override fun onQueryTextChange(newText: String?): Boolean {
+                musicListSearch = ArrayList()
+                if (newText != null) {
+                    val userInput = newText.lowercase()
+                    for (song in MusicListMA)
+                        if (song.title.lowercase().contains(userInput))
+                            musicListSearch.add(song)
+                    search = true
+                    musicAdapter.updateMusicList(searchList = musicListSearch)
+                }
+                return true
+            }
+        })
+        return super.onCreateOptionsMenu(menu)
+    }
 }
+
+
+
+
