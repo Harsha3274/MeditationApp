@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".playlist"
+    tools:context=".PlaylistDetails"
     android:background="@drawable/button_background">
 
     <ImageView
@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/back_image_playlist"
+            android:id="@+id/backBtnPD"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
@@ -37,6 +37,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/playlistNamePD"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Playlist"
@@ -46,25 +47,52 @@
             android:textColor="@color/white" />
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayoutDetails"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        android:layout_marginTop="10dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/playlistImgPD"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/music_player_icon"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Playlist Name"
+            android:textColor="@color/white"
+            android:gravity="center|start"
+            android:layout_marginHorizontal="5dp"
+            android:textSize="16sp"
+            />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/playlistRV"
+        android:id="@+id/playlistDetailsRV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutDetails"
         android:scrollbarThumbVertical="@drawable/scrollbar_icon"
         android:scrollbars="vertical"
-        android:paddingBottom="40dp"
+        android:paddingBottom="170dp"
         android:layout_marginTop="10dp"/>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/addPlaylistBtn"
+        android:id="@+id/shuffleBtnPD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
-        app:icon="@drawable/add_circle"
+        app:icon="@drawable/shuffle"
         app:iconSize="35dp"
         app:iconTint="@color/purple_500"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -75,5 +103,40 @@
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/teal_700"
         app:strokeWidth="2dp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/addBtnPD"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/add_circle"
+            android:text="Add"
+            android:textAllCaps="false"
+            tools:ignore="RtlHardcoded" />
+
+
+
+        <Button
+            android:id="@+id/removeAllPD"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/remove_icon"
+            android:text="Remove All"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
