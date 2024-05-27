@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/menu_relax"
+        android:id="@+id/menu"
         android:layout_width="40dp"
         android:layout_height="30dp"
         android:layout_marginStart="22dp"

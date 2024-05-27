@@ -39,7 +39,8 @@
                     android:src="@drawable/baseline_account_circle_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/username_textView"
@@ -75,7 +76,8 @@
                     app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -123,7 +125,8 @@
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:ignore="ContentDescription" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <TextView
@@ -164,7 +167,8 @@
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:ignore="ContentDescription" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <TextView
@@ -205,7 +209,8 @@
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:ignore="ContentDescription" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <TextView
@@ -373,8 +378,8 @@
 
             <Button
                 android:id="@+id/editProfile_btn"
-                android:layout_width="350dp"
-                android:layout_height="45dp"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
                 android:text="Edit Profile"
                 android:layout_gravity="center"
                 android:textColor="@color/white"

@@ -41,6 +41,7 @@
 
     <EditText
         android:id="@+id/name_editText"
+        android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
@@ -59,6 +60,7 @@
 
     <EditText
         android:id="@+id/email_editText"
+        android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
@@ -77,6 +79,7 @@
 
     <EditText
         android:id="@+id/password_editText"
+        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
@@ -96,6 +99,7 @@
 
     <EditText
         android:id="@+id/phoneNumber_editText"
+        android:inputType="number"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
@@ -185,7 +189,7 @@
         android:background="@color/white"
         android:text="Cancel"
         android:textColor="@color/purple_700"
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/save_appCompatButton"
         app:layout_constraintStart_toStartOf="parent"
