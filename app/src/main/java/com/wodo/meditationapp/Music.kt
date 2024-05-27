@@ -7,6 +7,7 @@ import android.provider.MediaStore.Audio.Artists
 import java.util.concurrent.TimeUnit
 import kotlin.time.Duration
 import android.app.Service
+import java.io.File
 import kotlin.system.exitProcess
 
 data class Music(val id: String, val title: String, val album: String, val artist: String, val duration: Long=0,val path: String,
@@ -48,6 +49,7 @@ fun getImgArt(path: String):ByteArray?{
  }
      fun exitApplication() {
          if (!sleep.isPlaying && sleep.musicService != null) {
+             sleep.musicService!!.audioManager.abandonAudioFocus(sleep.musicService)
              if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                  sleep.musicService!!.stopForeground(Service.STOP_FOREGROUND_REMOVE)
              } else {
@@ -68,4 +70,12 @@ fun favouriteChecker(id: String):Int{
         }
     }
     return -1
+}
+fun checkPlaylist(playlist: ArrayList<Music>): ArrayList<Music>{
+    playlist.forEachIndexed { index, music ->
+        val file=File(music.path)
+        if (!file.exists())
+            playlist.removeAt(index)
+    }
+    return playlist
 }

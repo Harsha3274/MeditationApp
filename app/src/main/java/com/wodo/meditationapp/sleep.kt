@@ -2,21 +2,26 @@ package com.wodo.meditationapp
 
 import android.annotation.SuppressLint
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.database.Cursor
 import android.graphics.Color
+import android.media.AudioManager
 import android.media.MediaPlayer
 import android.media.audiofx.AudioEffect
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
+import android.provider.MediaStore
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -50,7 +55,19 @@ class sleep : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCompletionLi
         binding=ActivitySleepBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initializeLayout()
+        if (intent.data?.scheme.contentEquals("content")){
+            val intentService= Intent(this,MusicService::class.java)
+            bindService(intentService,this, BIND_AUTO_CREATE)
+            startActivity(intentService)
+            musicListPA= ArrayList()
+            musicListPA.add(getMusicDetails(intent.data!!))
+            Glide.with(this)
+                .load(getImgArt(musicListPA[songPosition].path))
+                .apply(RequestOptions().placeholder(R.drawable.music_player_icon).centerCrop())
+                .into(binding.backImageSleep)
+            binding.songName.text= musicListPA[songPosition].title
+        }
+        else initializeLayout()
         binding.backImageSleep.setOnClickListener{finish()}
         binding.pauseCircle.setOnClickListener{
             if (isPlaying) pauseMusic()
@@ -191,6 +208,23 @@ class sleep : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCompletionLi
                 musicListPA.shuffle()
                 setLayout()
             }
+            "PlaylistDetailsAdapter"->{
+                val intent= Intent(this,MusicService::class.java)
+                bindService(intent,this, BIND_AUTO_CREATE)
+                startActivity(intent)
+                musicListPA= ArrayList()
+                musicListPA.addAll(playlist.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist)
+                setLayout()
+            }
+            "PlaylistDetailsShuffle"->{
+                val intent= Intent(this,MusicService::class.java)
+                bindService(intent,this, BIND_AUTO_CREATE)
+                startActivity(intent)
+                musicListPA= ArrayList()
+                musicListPA.addAll(playlist.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist)
+                musicListPA.shuffle()
+                setLayout()
+            }
         }
     }
 
@@ -217,7 +251,7 @@ class sleep : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCompletionLi
             musicService!!.mediaPlayer!!.start()
             isPlaying=true
             binding.pauseCircle.setIconResource(R.drawable.pause_circle)
-            musicService!!.showNotification(R.drawable.pause_circle)
+            musicService!!.showNotification(R.drawable.pause_circle,0F)
             binding.tvSeekBarStartNumber.text= formatDuration(musicService!!.mediaPlayer!!.currentPosition.toLong())
             binding.tvSeekBarendNumber.text= formatDuration(musicService!!.mediaPlayer!!.duration.toLong())
             binding.seekBarPA.progress=0
@@ -231,13 +265,13 @@ class sleep : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCompletionLi
 
     private fun playMusic(){
         binding.pauseCircle.setIconResource(R.drawable.pause_circle)
-        musicService!!.showNotification(R.drawable.pause_circle)
+        musicService!!.showNotification(R.drawable.pause_circle,1F)
         isPlaying=true
         musicService!!.mediaPlayer!!.start()
     }
     private fun pauseMusic(){
         binding.pauseCircle.setIconResource(R.drawable.play_icon)
-        musicService!!.showNotification(R.drawable.play_icon)
+        musicService!!.showNotification(R.drawable.play_icon,0F)
         isPlaying=false
         musicService!!.mediaPlayer!!.pause()
     }
@@ -259,6 +293,8 @@ class sleep : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCompletionLi
         musicService=binder.currentService()
         createMediaPlayer()
         musicService!!.seekBarSetup()
+        musicService!!.audioManager=getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        musicService!!.audioManager.requestAudioFocus(musicService,AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
     }
 
     override fun onServiceDisconnected(name: ComponentName?) {
@@ -308,5 +344,26 @@ class sleep : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCompletionLi
                 if (min60) exitApplication() }.start()
             dialog.dismiss()
         }
+    }
+    private fun getMusicDetails(conteUri: Uri): Music{
+            var cursor: Cursor? = null
+        try {
+            val projection= arrayOf(MediaStore.Audio.Media.DATA,MediaStore.Audio.Media.DURATION)
+            cursor=this.contentResolver.query(conteUri, projection,null,null,null)
+            val dataColumn=cursor?.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
+            val durationColumn=cursor?.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
+            cursor!!.moveToFirst()
+            val path= dataColumn?.let { cursor.getString(it) }
+            val duration=durationColumn?.let { cursor.getLong(it) }!!
+            return Music(id="Unknown", title=path.toString(), album = "Unknown", artist = "Unknown", duration=duration,
+               artUri = "Unknown", path = toString() )
+        }finally {
+            cursor?.close()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (musicListPA[songPosition].id=="Unknown"&&!isPlaying) exitApplication()
     }
 }

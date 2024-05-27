@@ -11,7 +11,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.wodo.meditationapp.databinding.MusicViewBinding
 
-class MusicAdapter(private val context: Context,private var musicList: ArrayList<Music>): RecyclerView.Adapter<MusicAdapter.MyHolder>() {
+class MusicAdapter(private val context: Context,private var musicList: ArrayList<Music>, private val playlistDetails: Boolean=false,
+    private val selectionActivity: Boolean=false): RecyclerView.Adapter<MusicAdapter.MyHolder>() {
     class MyHolder(binding:MusicViewBinding):RecyclerView.ViewHolder(binding.root) {
         val title=binding.songNameMV
         val albums = binding.songAlbumMV
@@ -33,13 +34,28 @@ class MusicAdapter(private val context: Context,private var musicList: ArrayList
             .load(musicList[position].artUri)
             .apply(RequestOptions().placeholder(R.drawable.music_player_icon).centerCrop())
             .into(holder.image)
-        holder.root.setOnClickListener{
-            when{
-                MusicList.search->sendIntent(ref = "MusicAdapterSearch", pos = position)
-                musicList[position].id==sleep.nowPlayingId->
-                    sendIntent(ref="NowPlaying",pos=sleep.songPosition)
-                else->sendIntent(ref="MusicAdapter",pos=position)
+        when{
+            playlistDetails->{
+                holder.root.setOnClickListener{
+                    sendIntent(ref="PlaylistDetailsAdapter", pos=position)
+                }
             }
+            selectionActivity->{
+                holder.root.setOnClickListener{
+                    if (addSong(musicList[position]))
+                        holder.root.setBackgroundColor(ContextCompat.getColor(context,R.color.white))
+                    else
+                        holder.root.setBackgroundColor(ContextCompat.getColor(context,R.color.purple_500))
+                }
+            }
+            else-> {
+                holder.root.setOnClickListener{
+                when{
+                    MusicList.search->sendIntent(ref = "MusicAdapterSearch", pos = position)
+                    musicList[position].id==sleep.nowPlayingId->
+                        sendIntent(ref="NowPlaying",pos=sleep.songPosition)
+                    else->sendIntent(ref="MusicAdapter",pos=position) }}
+        }
         }
     }
 
@@ -57,6 +73,21 @@ class MusicAdapter(private val context: Context,private var musicList: ArrayList
         intent.putExtra("index",pos)
         intent.putExtra("class",ref)
         ContextCompat.startActivity(context,intent,null)
+    }
+    private fun addSong(song: Music): Boolean{
+        playlist.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist.forEachIndexed{index, music ->
+            if (song.id==music.id){
+                playlist.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist.removeAt(index)
+                return false
+            }
+        }
+        playlist.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist.add(song)
+        return true
+    }
+    fun refreshPlaylist(){
+        musicList=ArrayList()
+        musicList=playlist.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist
+        notifyDataSetChanged()
     }
 }
 

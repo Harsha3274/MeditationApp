@@ -21,6 +21,7 @@ class favourite : AppCompatActivity() {
         setTheme(R.style.Theme_MeditationApp)
         binding=ActivityFavouriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        favouriteSongs= checkPlaylist(favouriteSongs)
         binding.backImageFavourite.setOnClickListener{ finish() }
         binding.favouriteRV.setHasFixedSize(true)
         binding.favouriteRV.setItemViewCacheSize(13)

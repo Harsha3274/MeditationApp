@@ -44,7 +44,8 @@
             android:gravity="center"
             android:textSize="25sp"
             android:textStyle="bold"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:singleLine="true"/>
 
     </LinearLayout>
     <LinearLayout
@@ -64,14 +65,14 @@
             android:src="@drawable/music_player_icon"/>
 
         <TextView
+            android:id="@+id/moreInfoPD"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Playlist Name"
             android:textColor="@color/white"
             android:gravity="center|start"
             android:layout_marginHorizontal="5dp"
-            android:textSize="16sp"
-            />
+            android:textSize="16sp" />
 
     </LinearLayout>
 
@@ -102,6 +103,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/teal_700"
+        android:visibility="invisible"
         app:strokeWidth="2dp" />
 
 

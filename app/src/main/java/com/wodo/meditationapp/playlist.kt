@@ -1,5 +1,6 @@
 package com.wodo.meditationapp
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -69,5 +70,11 @@ class playlist : AppCompatActivity() {
             musicPlaylist.ref.add(tempPlaylist)
             adapter.refreshPlaylist()
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onResume() {
+        super.onResume()
+        adapter.notifyDataSetChanged()
     }
 }

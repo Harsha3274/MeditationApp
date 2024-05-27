@@ -52,6 +52,12 @@ class PlaylistViewAdapter(private val context: Context, private var playlistList
             intent.putExtra("index",position)
             ContextCompat.startActivity(context,intent,null)
         }
+        if (playlist.musicPlaylist.ref[position].playlist.size>0){
+            Glide.with(context)
+                .load(playlist.musicPlaylist.ref[position].playlist[0].artUri)
+                .apply(RequestOptions().placeholder(R.drawable.music_player_icon).centerCrop())
+                .into(holder.image)
+        }
     }
 
     override fun getItemCount(): Int {
