@@ -1,6 +1,5 @@
 package com.wodo.meditationapp
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -69,13 +68,13 @@ class MusicAdapter(private val context: Context,private var musicList: ArrayList
         notifyDataSetChanged()
     }
     private fun sendIntent(ref:String,pos: Int){
-        val intent=Intent(context,playlist::class.java)
+        val intent=Intent(context,Playlist::class.java)
         intent.putExtra("index",pos)
         intent.putExtra("class",ref)
         ContextCompat.startActivity(context,intent,null)
     }
     private fun addSong(song: Music): Boolean{
-        playlist.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist.forEachIndexed{index, music ->
+        playlist.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist.forEachIndexed{ index, music ->
             if (song.id==music.id){
                 playlist.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist.removeAt(index)
                 return false

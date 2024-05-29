@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.wodo.meditationapp.databinding.FavouriteViewBinding
-import com.wodo.meditationapp.databinding.MusicViewBinding
 
 class FavouriteAdapter(private val context: Context, private var musicList: ArrayList<Music>): RecyclerView.Adapter<FavouriteAdapter.MyHolder>() {
     class MyHolder(binding: FavouriteViewBinding): RecyclerView.ViewHolder(binding.root) {
@@ -29,7 +28,7 @@ class FavouriteAdapter(private val context: Context, private var musicList: Arra
             .apply(RequestOptions().placeholder(R.drawable.music_player_icon).centerCrop())
             .into(holder.image)
         holder.root.setOnClickListener{
-            val intent= Intent(context,playlist::class.java)
+            val intent= Intent(context,Playlist::class.java)
             intent.putExtra("index",position)
             intent.putExtra("class","FavouriteAdapter")
             ContextCompat.startActivity(context,intent,null)

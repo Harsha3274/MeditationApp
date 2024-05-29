@@ -61,7 +61,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView1"
@@ -173,7 +174,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
             android:padding="5dp"
-            android:src="@drawable/fb" />
+            android:src="@drawable/fb"
+            tools:ignore="ContentDescription" />
 
 
     </androidx.cardview.widget.CardView>
@@ -195,7 +197,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
             android:padding="5dp"
-            android:src="@drawable/google" />
+            android:src="@drawable/google"
+            tools:ignore="ContentDescription" />
 
 
     </androidx.cardview.widget.CardView>
@@ -218,7 +221,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
             android:padding="5dp"
-            android:src="@drawable/twitter" />
+            android:src="@drawable/twitter"
+            tools:ignore="ContentDescription" />
 
 
     </androidx.cardview.widget.CardView>

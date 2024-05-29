@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.wodo.meditationapp.databinding.ActivityMainBinding
 import com.wodo.meditationapp.databinding.FragmentNowPlayingBinding
 
 
@@ -40,7 +39,7 @@ class NowPlaying : Fragment() {
             playMusic()
         }
         binding.root.setOnClickListener{
-            val intent= Intent(requireContext(),playlist::class.java)
+            val intent= Intent(requireContext(),Playlist::class.java)
             intent.putExtra("index",sleep.songPosition)
             intent.putExtra("class","NowPlaying")
             ContextCompat.startActivity(requireContext(),intent,null)

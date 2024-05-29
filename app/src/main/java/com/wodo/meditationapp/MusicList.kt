@@ -2,27 +2,17 @@
 package com.wodo.meditationapp
 
 import android.annotation.SuppressLint
-import android.content.ComponentName
 import android.content.Intent
-import android.content.ServiceConnection
 import android.content.pm.PackageManager
-import android.media.MediaPlayer
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.IBinder
 import android.provider.MediaStore
-import android.view.MenuItem
 import android.widget.Toast
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wodo.meditationapp.databinding.ActivityMusicListBinding
 import java.io.File
-import kotlin.system.exitProcess
-import android.app.Service
-import android.os.Build
-import android.os.PersistableBundle
 import android.view.Menu
 import android.widget.SearchView
 import com.google.gson.GsonBuilder
@@ -76,7 +66,7 @@ class MusicList : AppCompatActivity() {
             startActivity(intent)
         }
         binding.playlistBtnMusic.setOnClickListener {
-            val intent = Intent(this@MusicList, playlist::class.java)
+            val intent = Intent(this@MusicList, Playlist::class.java)
             startActivity(intent)
         }
     }

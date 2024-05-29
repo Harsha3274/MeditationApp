@@ -15,7 +15,8 @@
         android:src="@drawable/circles"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/menu"
@@ -25,7 +26,8 @@
         android:layout_marginTop="20dp"
         android:src="@drawable/menu"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textView8"
@@ -54,7 +56,8 @@
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/stress_card" />
+            android:src="@drawable/stress_card"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:layout_width="match_parent"
@@ -83,7 +86,8 @@
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/anxiety_image" />
+            android:src="@drawable/anxiety_image"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:layout_width="match_parent"
@@ -111,7 +115,8 @@
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/agitated_icon" />
+            android:src="@drawable/agitated_icon"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:layout_width="match_parent"

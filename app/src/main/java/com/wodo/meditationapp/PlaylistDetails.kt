@@ -12,9 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.GsonBuilder
-import com.wodo.meditationapp.databinding.ActivityPlaylistBinding
 import com.wodo.meditationapp.databinding.ActivityPlaylistDetailsBinding
-import com.wodo.meditationapp.databinding.PlaylistViewBinding
 
 @Suppress("DEPRECATION")
 class PlaylistDetails : AppCompatActivity() {

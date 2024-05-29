@@ -21,15 +21,12 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.core.content.getSystemService
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.wodo.meditationapp.databinding.ActivityPlaylistBinding
 import com.wodo.meditationapp.databinding.ActivitySleepBinding
 import kotlin.Exception
-import kotlin.system.exitProcess
 
 class sleep : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCompletionListener {
 

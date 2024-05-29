@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.wodo.meditationapp.databinding.FavouriteViewBinding
 import com.wodo.meditationapp.databinding.PlaylistViewBinding
 
 class PlaylistViewAdapter(private val context: Context, private var playlistList: ArrayList<Playlist>): RecyclerView.Adapter<PlaylistViewAdapter.MyHolder>() {
