@@ -1,6 +1,5 @@
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android") version "1.8.20" apply false
 }
 
 android {
@@ -14,6 +13,7 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true
     }
 
     buildTypes {
@@ -54,16 +54,21 @@ android {
     }
 }
 
+
+
 dependencies {
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    implementation("com.android.tools.compose:compose-preview-renderer:0.0.1-alpha01") {
+   /* implementation("com.android.tools.compose:compose-preview-renderer:0.0.1-alpha01") {
         exclude(group = "org.jetbrains", module = "annotations")
-    }
+    }*/
 
+    configurations.implementation {
+        exclude (group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
+    }
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
